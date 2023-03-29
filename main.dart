@@ -5,8 +5,9 @@ import 'Data/clientData.dart';
 import 'Models/client.dart';
 import 'Models/compte.dart';
 
-void main() {
+void main() async {
   String response = "OUI";
+  await ClientData.LoadDataFromFile();
   while (response == "OUI") {
     faireOperation();
     print("Voulez-vous continuer OUI / NON ?");
@@ -16,6 +17,7 @@ void main() {
       response = stdin.readLineSync().toString();
     }
   }
+  ClientData.UpdateJsonFile();
 }
 
 faireOperation() {
@@ -79,9 +81,14 @@ demanderClientInformation() {
   var telephoneClient = stdin.readLineSync().toString();
   var numCompte = generateNumCompte(nomClient, prenomClient);
   var typeCompte = demanderTypeCompte();
-  var compte = new Compte(numCompte, 0, DateTime.now(), typeCompte);
-  return new Client(nomClient, prenomClient, telephoneClient, addresseClient,
-      dateNaissanceClient, compte);
+  var compte = new Compte(numCompte: numCompte, solde : 0, dateCreat :  DateTime.now(), typeCompte :  typeCompte);
+  return new Client(
+      nom: nomClient,
+      prenom: prenomClient,
+      telephone: telephoneClient,
+      adresse: addresseClient,
+      dateNaissance: dateNaissanceClient,
+      compte: compte);
 }
 
 generateNumCompte(String nom, String prenom) {
