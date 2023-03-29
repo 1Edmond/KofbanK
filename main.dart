@@ -27,23 +27,26 @@ faireOperation() {
     afficherMenu();
     userResponse = int.parse(stdin.readLineSync().toString());
   }
-
-  switch (userResponse) {
-    case 1:
-      ajouterClient();
-      break;
-    case 2:
-      afficherClients();
-      break;
-    case 3:
-      faireDepot();
-      break;
-    case 4:
-      faireRetrait();
-      break;
-    case 5:
-      transfererArgent();
-      break;
+  try {
+    switch (userResponse) {
+      case 1:
+        ajouterClient();
+        break;
+      case 2:
+        afficherClients();
+        break;
+      case 3:
+        faireDepot();
+        break;
+      case 4:
+        faireRetrait();
+        break;
+      case 5:
+        transfererArgent();
+        break;
+    }
+  } catch (e) {
+    print(e.toString());
   }
 }
 
@@ -145,10 +148,42 @@ faireRetrait() {
     soldeDepot = double.parse(stdin.readLineSync().toString());
   }
   var rep = client.compte.faireRetrait(soldeDepot);
-  if (rep) 
+  if (rep)
     print("Retrait effectué avec succès.");
-  else 
+  else
     print("Solde du compte insuffisant pour faire le retrait.");
 }
 
-transfererArgent() {}
+transfererArgent() {
+  print("Saisissez les informations demandées pour faire le transfert");
+  print("Votre numéro de compte");
+  String numeroCompte = stdin.readLineSync().toString();
+  while (ClientData.Clients.where(
+          (client) => client.compte.numCompte == numeroCompte).length ==
+      0) {
+    print("Erreur, numéro de compte inconnu");
+    numeroCompte = stdin.readLineSync().toString();
+  }
+  var debiteur =
+      ClientData.Clients.firstWhere((x) => x.compte.numCompte == numeroCompte);
+  print("Numéro de compte du client qui va recevoir l'argent");
+  numeroCompte = stdin.readLineSync().toString();
+  while (ClientData.Clients.where(
+          (client) => client.compte.numCompte == numeroCompte).length ==
+      0) {
+    print("Erreur, numéro de compte inconnu");
+    numeroCompte = stdin.readLineSync().toString();
+  }
+  var crediteur =
+      ClientData.Clients.firstWhere((x) => x.compte.numCompte == numeroCompte);
+  print("2 - Montant à transféré");
+  var soldeDepot = double.parse(stdin.readLineSync().toString());
+  while (soldeDepot <= 0) {
+    print("Erreur, le montant à déposer doit être supérieur à 0.");
+    soldeDepot = double.parse(stdin.readLineSync().toString());
+  }
+  if (debiteur.compte.faireTransfert(crediteur.compte, soldeDepot))
+    print("L'opération s'est bien passée.");
+  else
+    print("L'opération s'est bien passée.");
+}

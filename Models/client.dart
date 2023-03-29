@@ -1,5 +1,6 @@
 import 'compte.dart';
 
+
 class Client {
 
   String nom;
@@ -14,6 +15,6 @@ class Client {
 
   @override
   String toString() {
-    return "Nom : "+ nom + ", Prénom : " + prenom + " adresse : " + adresse +" " + compte.toString();
+    return "Nom : "+ nom + ", prénom : " + prenom + " adresse : " + adresse +" " + compte.toString();
   }
 }

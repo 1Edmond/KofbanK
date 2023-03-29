@@ -5,9 +5,11 @@ class ClientData {
 
   static afficherListeClient() {
     sortClientListe();
+    print("Voici la liste des clients disponibles : \n");
     Clients.forEach((element) {
-     print(element.toString());
+      print(element.toString());
     });
+    print("\n");
   }
 
   static sortClientListe() {

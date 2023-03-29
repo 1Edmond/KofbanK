@@ -25,7 +25,7 @@ class Compte {
 
   @override
   String toString() {
-    return "Numéro de compte "+ numCompte +" solde : " + solde.toString() ;
+    return "Numéro de compte "+ numCompte +" solde : " + solde.toString() + "\n" ;
   }
 
   faireTransfert(Compte destinataire, double montant) {
